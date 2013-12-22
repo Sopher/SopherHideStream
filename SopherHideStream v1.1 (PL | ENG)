@@ -1,0 +1,103 @@
+# Author: Sopher - http://github.com/Sopher
+# Script name: SopherHideStream v1.1
+# Skript version: 2.0.2
+# Requirements: SkriptPlus
+# License: Sopher Open Script License v1.0
+# URL: https://github.com/Sopher/sopheropenscriptlicense
+
+# Script is supported by SopherChat v1.1 or greater version.
+
+options:
+	# Languages: eng/ pl
+	# Języki: eng/ pl
+	lang: eng
+	
+	# Script version - don't change :-)
+	# Wersja skryptu - nie zmieniaj :-)
+	version: 1.1
+
+# Event to hide players.
+on rightclick holding stick:
+	if {sopher.hidestream.gracz::%player%} is not set:
+		set {sopher.hidestream.gracz::%player%} to true
+	if {sopher.hidestream.gracz::%player%} is true:
+		set {sopher.hidestream.gracz::%player%}  to false
+		hide all players from player
+		if {sopher.hidestream.lang} is "eng":
+			send "[&9SopherHideStream&f] &7Players were hidden."
+		if {sopher.hidestream.lang} is "pl":
+			send "[&9SopherHideStream&f] &7Gracze zostali ukryci."
+		stop
+	if {sopher.hidestream.gracz::%player%} is false:
+		set {sopher.hidestream.gracz::%player%}  to true
+		reveal all players to player
+		if {sopher.hidestream.lang} is "eng":
+			send "[&9SopherHideStream&f] &7Players become visible."
+		if {sopher.hidestream.lang} is "pl":
+			send "[&9SopherHideStream&f] &7Gracze stali sie widoczni."
+		stop
+		
+# Event on join.
+on join:
+	loop all players:
+		if {sopher.hidestream.global} is false:
+			hide player from loop-player
+		else:
+			if {sopher.hidestream.gracz::%loop-player%} is false:
+				hide player from loop-player
+			
+# Global command.
+on command /sopherhidestream [<text>]:
+	aliases: shs
+	trigger:
+		if arg 1 is not set:
+			if name of player is "MrSopher":
+				send "{@tag} Server is running on SopherHideStream {@version}"
+				stop
+			else:
+				if {sopher.hidestream.lang} is "eng":
+					send "{@tag} Author: &aSopher"
+					send "{@tag} Contact: &ahttp://github.com/Sopher"
+				if {sopher.hidestream.lang} is "pl":
+					send "{@tag} Autor: &aSopher"
+					send "{@tag} Kontakt: &ahttp://github.com/Sopher"
+				stop
+		if arg 1 is "status":
+			if player has permission "sopher.hidestream.*" or "sopher.hidestream.status":
+				if {sopher.hidestream.global} is not set:
+					set {sopher.hidestream.global} to true
+				if {sopher.hidestream.global} is true:
+					set {sopher.hidestream.global} to false
+					hide all player from all players
+					if {sopher.hidestream.lang} is "eng":
+						send "[&9SopherHideStream&f] &aPlayers were hidden."
+					if {sopher.hidestream.lang} is "pl":
+						send "[&9SopherHideStream&f] &aGracze zostali ukryci."
+					stop
+				else:
+					set {sopher.hidestream.global} to true
+					reveal all players to all players
+					if {sopher.hidestream.lang} is "eng":
+						send "[&9SopherHideStream&f] &7Players become visible."
+					if {sopher.hidestream.lang} is "pl":
+						send "[&9SopherHideStream&f] &7Gracze stali sie widoczni."
+					stop
+			else:
+				if {sopher.hidestream.lang} is "eng":
+					send "[&9SopherHideStream&f] &cYou don't have permission to make it."
+				if {sopher.hidestream.lang} is "pl":
+					send "[&9SopherHideStream&f] &cNie masz uprawnien, aby to zrobic."
+				stop
+
+
+# Event on script load.
+on script load:
+	set {sopher.hidestream.lang} to "{@lang}"
+	if {sopher.chat.lang} is "eng" or "pl":
+		send "[SopherHideStream] Successfully loaded. Version: {@version}" to console
+		send "[SopherHideStream] Developed by Sopher." to console
+	else:
+		send "[SopherHideStream] Unsuccessfully loaded. Version: {@version}" to console
+		send "[SopherHideStream] Error: wrong language name." to console
+		send "[SopherHideStream] Developed by Sopher." to console	
+		stop script
