@@ -1,0 +1,44 @@
+# Author: Sopher - http://github.com/Sopher
+# Script name: SopherHideStream v1.0
+# Skript version: 2.0.2
+# Requirements: SkriptPlus
+# License: Sopher Open Script License v1.0
+# URL: https://github.com/Sopher/sopheropenscriptlicense
+
+# Script is supported by SopherChat v1.0.1 or greater version.
+
+options:
+	# Languages: eng/ pl
+	lang: eng
+
+# Event to hide players.
+on rightclick holding stick:
+	if {sopher.hidestream.gracz::%player%} is not set:
+		set {sopher.hidestream.gracz::%player%} to true
+	if {sopher.hidestream.gracz::%player%} is true:
+		set {sopher.hidestream.gracz::%player%}  to false
+		hide all players from player
+		if {sopher.hidestream.lang} is "eng":
+			send "[&9SopherHideStream&f] &7Players were hidden."
+		if {sopher.hidestream.lang} is "pl":
+			send "[&9SopherHideStream&f] &7Gracze zostali ukryci."
+		stop
+	if {sopher.hidestream.gracz::%player%} is false:
+		set {sopher.hidestream.gracz::%player%}  to true
+		reveal all players to player
+		if {sopher.hidestream.lang} is "eng":
+			send "[&9SopherHideStream&f] &7Players become visible."
+		if {sopher.hidestream.lang} is "pl":
+			send "[&9SopherHideStream&f] &7Gracze stali sie widoczni."
+		stop
+		
+# Event on join.
+on join:
+	loop all players:
+		if {sopher.hidestream.gracz::%loop-player%} is false:
+			hide player from loop-player
+		
+# Event on script load.
+on script load:
+	set {sopher.hidestream.lang} to "{@lang}"
+	send "[SopherHideStream] Successfully loaded." to console		
