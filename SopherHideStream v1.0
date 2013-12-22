@@ -10,9 +10,14 @@
 options:
 	# Languages: eng/ pl
 	lang: eng
+	
+	# Item, which will be hidden players.
+	item: stick
+	name: SopherHideStream
 
 # Event to hide players.
-on rightclick holding stick:
+on rightclick holding {@item}:
+	name of player's tool is "&b{@name}"
 	if {sopher.hidestream.gracz::%player%} is not set:
 		set {sopher.hidestream.gracz::%player%} to true
 	if {sopher.hidestream.gracz::%player%} is true:
