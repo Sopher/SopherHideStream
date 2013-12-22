@@ -8,7 +8,7 @@
 # Script is supported by SopherChat v1.0.1 or greater version.
 
 options:
-	# Languages: eng/ pl
+	# Languages: eng / pl
 	lang: eng
 	
 	# Item, which will be hidden players.
